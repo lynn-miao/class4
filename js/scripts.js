@@ -2,8 +2,8 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiY3dob25nIiwiYSI6IjAyYzIwYTJjYTVhMzUxZTVkMzdmY
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v12',
-    center: [-74.5, 40],
-    zoom: 2
+    center: [-73.99300, 40.70184],
+    zoom: 14
 });
 
 var dummyPolygonGeojson = {
@@ -80,7 +80,7 @@ map.on('load', () => {
 
     // add a fill layer
     map.addLayer({
-        'id': 'dummyPolygone-fill',
+        'id': 'dummyPolygon-fill',
         'type': 'fill',
         'source': 'dummyPolygon',
         'layout': {},
@@ -92,7 +92,7 @@ map.on('load', () => {
 
     // add a line layer
     map.addLayer({
-        'id': 'dummyPolygone-line',
+        'id': 'dummyPolygon-line',
         'type': 'line',
         'source': 'dummyPolygon',
         'layout': {},
@@ -107,4 +107,42 @@ map.on('load', () => {
         map.getStyle().layers
     )
 
+    // add the pluto data
+
+    map.addSource('geojsonclass4', {
+        "type": "geojson",
+        "data": 'data/geojsonclass4.geojson'
+    })
+
+    map.addLayer({
+        'id': 'geojsonclass4-line',
+        'type': 'line',
+        'source': 'geojsonclass4',
+        'layout': {},
+        'paint': {
+            'line-color': '#000',
+            'line-width': 2,
+        }
+    });
+
+    map.addLayer({
+        'id': 'geojsonclass4-fill',
+        'type': 'fill',
+        'source': 'geojsonclass4',
+        'layout': {},
+        'paint': {
+            'fill-color': [
+                'interpolate',
+                ['linear'],
+                ['get','UnitsRes'],
+                0,
+                '#ece7f2',
+                4,
+                'green',
+                10,
+                '#a6bddb',
+            ],
+            'fill-opacity': .8,
+        }
+    });
 })
